@@ -4,6 +4,13 @@
  */
 package vista;
 
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JTable;
+import javax.swing.table.TableModel;
+import modelo.Venta;
+
 /**
  *
  * @author julda
@@ -13,8 +20,10 @@ public class VentanaVentas extends javax.swing.JFrame {
     /**
      * Creates new form VentanaVentas
      */
-    public VentanaVentas() {
+    public VentanaVentas() 
+    {
         initComponents();
+        this.addTablaHistorialListener(new TablaHistorialListener());
     }
 
     /**
@@ -29,27 +38,28 @@ public class VentanaVentas extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        agregarAnho = new javax.swing.JButton();
-        editarAnho = new javax.swing.JButton();
-        eliminarAnho = new javax.swing.JButton();
-        nuevoPronostico = new javax.swing.JButton();
+        btnAgregarAnho = new javax.swing.JButton();
+        btnEditarAnho = new javax.swing.JButton();
+        btnEliminarAnho = new javax.swing.JButton();
+        btnNuevoPronostico = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        cantidadVentas = new javax.swing.JTextField();
-        anosPronosticos = new javax.swing.JTextField();
+        txtCantidadVentas = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbHistorialVentas = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tbPronosticos = new javax.swing.JTable();
+        tbPronosticoVentas = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
-        promVariacion = new javax.swing.JTextField();
+        txtPromVariacion = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        txtAnhosPronosticos = new javax.swing.JTextField();
+        btnHacerPronostico = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -62,21 +72,21 @@ public class VentanaVentas extends javax.swing.JFrame {
         jLabel5.setText("Controles");
         jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, -1));
 
-        agregarAnho.setText("Agregar Año");
-        agregarAnho.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel3.add(agregarAnho, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 110, 40));
+        btnAgregarAnho.setText("Agregar Año");
+        btnAgregarAnho.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel3.add(btnAgregarAnho, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 110, 40));
 
-        editarAnho.setText("Editar Año");
-        editarAnho.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel3.add(editarAnho, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 30, 110, 40));
+        btnEditarAnho.setText("Editar Año");
+        btnEditarAnho.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel3.add(btnEditarAnho, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 30, 110, 40));
 
-        eliminarAnho.setText("Eliminar Año");
-        eliminarAnho.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel3.add(eliminarAnho, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 110, 40));
+        btnEliminarAnho.setText("Eliminar Año");
+        btnEliminarAnho.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel3.add(btnEliminarAnho, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 110, 40));
 
-        nuevoPronostico.setText("Nuevo Pronostico");
-        nuevoPronostico.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel3.add(nuevoPronostico, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 80, 110, 40));
+        btnNuevoPronostico.setText("Nuevo Pronostico");
+        btnNuevoPronostico.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel3.add(btnNuevoPronostico, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 80, 110, 40));
 
         jPanel2.setBackground(new java.awt.Color(230, 230, 230));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -87,28 +97,14 @@ public class VentanaVentas extends javax.swing.JFrame {
         jLabel2.setText("Cantidad de ventas:");
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
 
-        jLabel3.setText("Años a pronosticar");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, -1));
-
-        jLabel4.setText("Cantidad:");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
-
-        cantidadVentas.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel2.add(cantidadVentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 20, 130, 30));
-
-        anosPronosticos.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel2.add(anosPronosticos, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 130, 30));
+        txtCantidadVentas.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel2.add(txtCantidadVentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, 130, 30));
 
         jPanel4.setBackground(new java.awt.Color(230, 230, 230));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tbHistorialVentas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
+            null,
             new String [] {
                 "Año", "Ventas", "Diferencia Anual", "Variación"
             }
@@ -123,33 +119,37 @@ public class VentanaVentas extends javax.swing.JFrame {
         jPanel5.setBackground(new java.awt.Color(230, 230, 230));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        tbPronosticos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
+        tbPronosticoVentas.setModel(new javax.swing.table.DefaultTableModel(
+            null,
             new String [] {
                 "Año", "Prónostico Ventas"
             }
         ));
-        jScrollPane2.setViewportView(tbPronosticos);
+        jScrollPane2.setViewportView(tbPronosticoVentas);
 
         jPanel5.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 0, 300, 180));
 
         jLabel6.setText("Promedio de variación:");
         jPanel5.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
-        promVariacion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                promVariacionActionPerformed(evt);
-            }
-        });
-        jPanel5.add(promVariacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, 210, 30));
+        txtPromVariacion.setEditable(false);
+        jPanel5.add(txtPromVariacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, 140, 30));
 
         jLabel8.setText("Pronóstico de ventas");
         jPanel5.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        jLabel3.setText("Años a pronosticar");
+        jPanel5.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
+
+        jLabel4.setText("Cantidad:");
+        jPanel5.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
+
+        txtAnhosPronosticos.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel5.add(txtAnhosPronosticos, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 140, 30));
+
+        btnHacerPronostico.setText("Pronosticar");
+        btnHacerPronostico.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel5.add(btnHacerPronostico, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, 90, 40));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -185,11 +185,119 @@ public class VentanaVentas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void promVariacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_promVariacionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_promVariacionActionPerformed
+    //Action Listener botones
+    
+    public void addBtnAgregarAnhoListener(ActionListener listener)
+    {
+        btnAgregarAnho.addActionListener(listener);
+    }
+    
+    public void addBtnEditarAnhoListener(ActionListener listener)
+    {
+        btnEditarAnho.addActionListener(listener);
+    }
+    
+    public void addBtnEliminarAnhoListener(ActionListener listener)
+    {
+        btnEliminarAnho.addActionListener(listener);
+    }
+    
+    public void addBtnNuevoPronosticoListener(ActionListener listener)
+    {
+        btnNuevoPronostico.addActionListener(listener);
+    }
+    
+    public void addBtnHacerPronosticoListener(ActionListener listener)
+    {
+        btnHacerPronostico.addActionListener(listener);
+    }
+    
+    //TABLAS
+    
+    public TableModel getModelTablaHistorial()
+    {
+        return tbHistorialVentas.getModel();
+    }
+    
+    public int getFilaSeleccionadaTablaHistorial()
+    {
+        return tbHistorialVentas.getSelectedRow();
+    }
+    
+    public TableModel getModelTablaPronostico()
+    {
+        return tbPronosticoVentas.getModel();
+    }
+    
+    public int getFilaSeleccionadaTablaPronostico()
+    {
+        return tbPronosticoVentas.getSelectedRow();
+    }
+    
+    //SETTERS Y GETTERS
+    
+    public String getTxtCantidadVentas()
+    {
+        return txtCantidadVentas.getText();
+    }
+    
+    public String getTxtAnhosProsnoticos()
+    {
+        return txtAnhosPronosticos.getText();
+    }
+    
+    public String getTxtPromVariacion()
+    {
+        return txtPromVariacion.getText();
+    }
+    
+    public void setTxtCantidadVentas(String txt)
+    {
+        txtCantidadVentas.setText(txt);
+    }
+    
+    public void setTxtAnhosPronosticos(String txt)
+    {
+        txtAnhosPronosticos.setText(txt);
+    }
+    
+    public void setTxtPromVariacion(String txt)
+    {
+        txtPromVariacion.setText(txt);
+    }
+    
+    public void vaciarTxtVentas()
+    {
+        txtCantidadVentas.setText("");
+    }
 
+    //LISTENER TABLAS
+    
+    public void addTablaHistorialListener(MouseAdapter listener)
+    {
+        tbHistorialVentas.addMouseListener(listener);
+    }
+    
+    class TablaHistorialListener extends MouseAdapter
+    {
+        public void mouseClicked(MouseEvent e)
+        {
+            JTable tabla = (JTable)e.getSource();
+            int fila = tabla.getSelectedRow();
+            if(fila == -1)
+            {
+                setTxtCantidadVentas("");
+            }
+            else
+            {
+                setTxtCantidadVentas(String.valueOf(tabla.getValueAt(fila, 1)));
+            }
+        }
+    }
+    
+    
     /**
+     * 
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -225,11 +333,11 @@ public class VentanaVentas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton agregarAnho;
-    private javax.swing.JTextField anosPronosticos;
-    private javax.swing.JTextField cantidadVentas;
-    private javax.swing.JButton editarAnho;
-    private javax.swing.JButton eliminarAnho;
+    private javax.swing.JButton btnAgregarAnho;
+    private javax.swing.JButton btnEditarAnho;
+    private javax.swing.JButton btnEliminarAnho;
+    private javax.swing.JButton btnHacerPronostico;
+    private javax.swing.JButton btnNuevoPronostico;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -245,9 +353,10 @@ public class VentanaVentas extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JButton nuevoPronostico;
-    private javax.swing.JTextField promVariacion;
     public javax.swing.JTable tbHistorialVentas;
-    public javax.swing.JTable tbPronosticos;
+    public javax.swing.JTable tbPronosticoVentas;
+    private javax.swing.JTextField txtAnhosPronosticos;
+    private javax.swing.JTextField txtCantidadVentas;
+    private javax.swing.JTextField txtPromVariacion;
     // End of variables declaration//GEN-END:variables
 }
