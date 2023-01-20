@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package vista;
 
 import java.awt.event.ActionListener;
@@ -13,7 +10,7 @@ import modelo.Venta;
 
 /**
  *
- * @author julda
+ * Julian David Rendon Cardona - 2177387 - julian.david.rendon@correounivalle.edu.co
  */
 public class VentanaVentas extends javax.swing.JFrame {
 

@@ -3,7 +3,7 @@ package modelo;
 
 /**
  *
- * MESSI
+ * Julian David Rendon Cardona - 2177387 - julian.david.rendon@correounivalle.edu.co
  */
 public class Venta 
 {
