@@ -13,7 +13,7 @@ public class Venta
     private double variacionVentas;
     private double diferenciaVentas;
     
-    public Venta(int auxAnho, double auxCantidadVentas, double auxVariacionVentas, double auxDiferenciaVentas)
+    public Venta(int auxAnho, double auxCantidadVentas, double auxDiferenciaVentas, double auxVariacionVentas)
     {
         numeroAnho++;
         anho  = numeroAnho ;
